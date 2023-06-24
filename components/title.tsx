@@ -1,6 +1,7 @@
 "use server"
 import { currentUser } from '@clerk/nextjs';
 import { format } from 'date-fns';
+import DigitalClock from './DigitalClock';
 
 export default async function UserTitle() {
 
@@ -15,6 +16,9 @@ export default async function UserTitle() {
         </h1>
         <p className="max-w-[700px] text-lg text-muted-foreground">
           {format(Date.now(), 'MMMM d, yyyy')}
+        </p>
+        <p className="max-w-[700px] text-md text-muted-foreground">
+          <DigitalClock />
         </p>
         </div>
     )

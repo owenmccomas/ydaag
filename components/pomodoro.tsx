@@ -46,11 +46,11 @@ const PomodoroTimer: React.FC<PomodoroTimerProps> = ({ initialTime }) => {
   };
 
   return (
-    <div className='flex w-[500px] flex-wrap items-center justify-between rounded-lg border p-3 transition-transform'>
+    <div className='flex w-[325px] flex-wrap items-center justify-between rounded-lg border h-12 px-1 transition-transform'>
       <Button variant={'outline'} onClick={handleButtonClick} onDoubleClick={handleButtonDoubleClick}>
         {formatTime(timeLeft)}
       </Button>
-      <p className='tracking-hughJanus text-center font-mono text-2xl uppercase' style={{letterSpacing: '.5em'}}>Pomodoro</p>
+      <p className='tracking-hughJanus text-center font-mono text-2xl uppercase' style={{letterSpacing: '.3em'}}>Pomodoro</p>
       <Switch className='mr-2' onClick={()=>setShowProg(!showProg)} />
       {showProg && <Progress className='mx-auto mt-3 w-10/12' value={timeLeft / 600} max={initialTime / 60} />}
     </div>

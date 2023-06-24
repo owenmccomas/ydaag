@@ -1,5 +1,6 @@
 import React from "react"
 import Link from "next/link"
+
 import { siteConfig } from "@/config/site"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -12,31 +13,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import UserTitle from "@/components/title"
 import CalenderWrapper from "@/components/calender-wrapper"
 import PomodoroTimer from "@/components/pomodoro"
+import UserTitle from "@/components/title"
 import WeatherWidget from "@/components/weather"
 
 export default async function IndexPage() {
-
-  const appID = process.env.HERE_APP_ID; // here.com appID
-  const appCode = process.env.HERE_APP_CODE; // here.com appCode
+  const appID = process.env.HERE_APP_ID // here.com appID
+  const appCode = process.env.HERE_APP_CODE // here.com appCode
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-        <UserTitle />
+      <UserTitle />
       <div className="flex gap-4">
         <PomodoroTimer initialTime={1500} />
         {/* <WeatherWidget appID={appID} appCode={appCode} /> */}
+
+        <Button variant={"outline"} className="h-12">
+          <Link
+            target="_blank"
+            rel="noreferrer"
+            href={"https://github.com"}
+            // href={siteConfig.links.github}
+          >
+            GitHub
+          </Link>
+        </Button>
+
+        <Button variant={"outline"} className="h-12">
         <Link
           target="_blank"
           rel="noreferrer"
-          href={"https://github.com"}
+          href={"https://mail.google.com"}
           // href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
         >
-          GitHub
+          Gmail
         </Link>
+        </Button>
+
       </div>
       <div className="flex gap-4">
         <Table>
