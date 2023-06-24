@@ -1,7 +1,5 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Button } from './ui/button';
-import { Progress } from './ui/progress';
 
 interface PomodoroTimerProps {
   initialTime: number;
@@ -18,6 +16,8 @@ const PomodoroTimer: React.FC<PomodoroTimerProps> = ({ initialTime }) => {
       }, 1000);
 
       return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      playChime();
     }
   }, [isPaused, timeLeft]);
 
@@ -35,14 +35,17 @@ const PomodoroTimer: React.FC<PomodoroTimerProps> = ({ initialTime }) => {
     const remainingSeconds = (seconds % 60).toString().padStart(2, '0');
     return `${minutes}:${remainingSeconds}`;
   };
+
+  const playChime = () => {
+    const audio = new Audio('/chime.mp3'); // Replace with the actual path to your chime sound file
+    audio.play();
+  };
+
   return (
-    <div className='border rounded-lg w-[200px] p-5 m-5'>
-      <Button onClick={handleButtonClick} onDoubleClick={handleButtonDoubleClick}>
+    <div>
+      <button onClick={handleButtonClick} onDoubleClick={handleButtonDoubleClick}>
         {formatTime(timeLeft)}
-      </Button>
-      {
-        !isPaused && <Progress value={timeLeft / 1000} className="w-full" />
-      }
+      </button>
     </div>
   );
 };
