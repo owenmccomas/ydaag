@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Table,
@@ -15,14 +15,19 @@ import {
 import UserTitle from "@/components/title"
 import CalenderWrapper from "@/components/calender-wrapper"
 import PomodoroTimer from "@/components/pomodoro"
+import WeatherWidget from "@/components/weather"
 
 export default async function IndexPage() {
+
+  const appID = process.env.HERE_APP_ID; // here.com appID
+  const appCode = process.env.HERE_APP_CODE; // here.com appCode
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
         <UserTitle />
       <div className="flex gap-4">
         <PomodoroTimer initialTime={1500} />
+        {/* <WeatherWidget appID={appID} appCode={appCode} /> */}
         <Link
           target="_blank"
           rel="noreferrer"
@@ -33,7 +38,6 @@ export default async function IndexPage() {
           GitHub
         </Link>
       </div>
-
       <div className="flex gap-4">
         <Table>
           <TableCaption>
