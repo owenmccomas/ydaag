@@ -5,6 +5,15 @@ import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 interface MainNavProps {
   items?: NavItem[]
@@ -31,9 +40,12 @@ export function MainNav({ items }: MainNavProps) {
                   )}
                 >
                   {item.title}
+                  
                 </Link>
               )
           )}
+          
+          
         </nav>
       ) : null}
     </div>
