@@ -14,6 +14,9 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+      letterSpacing: {
+        hughJanus: "3em",
+      },
     },
     extend: {
       colors: {
