@@ -1,30 +1,56 @@
 "use client";
 
-import React from 'react';
-import { Button } from './ui/button';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const Weather = require('weather');
-
-interface WeatherProps {
-  appID: string | undefined;
-  appCode: string | undefined;
+interface WeatherPeriod {
+  temperature: number;
+  shortForecast: string;
+  startTime: string;
+  endTime: string;
 }
 
-const WeatherWidget: React.FC<WeatherProps> = ({ appID, appCode }) => {
-  const weather = new Weather({
-    appID,
-    appCode
-  });
+const WeatherWidget: React.FC = () => {
+  const [currentPeriod, setCurrentPeriod] = useState<WeatherPeriod | null>(null);
 
-  // now(<location>) returns a Promise
-  const getWeather = (location: string) => {
-    weather.now(location).then((results: any) => {
-      console.log(results);
-    });
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'https://api.weather.gov/gridpoints/OTX/141,91/forecast/hourly'
+        );
+        const periods = response.data.properties.periods;
+        const currentDateTime = new Date();
+
+        for (const period of periods) {
+          const startTime = new Date(period.startTime);
+          const endTime = new Date(period.endTime);
+
+          if (currentDateTime >= startTime && currentDateTime <= endTime) {
+            setCurrentPeriod(period);
+            break;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <Button onClick={() => getWeather('Brisbane, Australia')}>Weather</Button>
+    <div className="flex justify-end">
+      {currentPeriod ? (
+        <div>
+          {/* <div>Time: {currentPeriod.startTime}</div> */}
+          <div>Temperature: {currentPeriod.temperature}&deg;F</div>
+          <div>Forecast: {currentPeriod.shortForecast}</div>
+        </div>
+      ) : (
+        <div>Loading weather data...</div>
+      )}
+    </div>
   );
 };
 

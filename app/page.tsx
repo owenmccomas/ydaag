@@ -16,19 +16,15 @@ import {
 import CalenderWrapper from "@/components/calender-wrapper"
 import PomodoroTimer from "@/components/pomodoro"
 import UserTitle from "@/components/title"
-import WeatherWidget from "@/components/weather"
 
 
 export default async function IndexPage() {
-  const appID = process.env.HERE_APP_ID // here.com appID
-  const appCode = process.env.HERE_APP_CODE // here.com appCode
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <UserTitle />
       <div className="flex gap-4">
         <PomodoroTimer initialTime={1500} />
-        {/* <WeatherWidget appID={appID} appCode={appCode} /> */}
 
         <Button variant={"outline"} className="h-12">
           <Link
