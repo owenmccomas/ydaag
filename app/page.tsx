@@ -18,6 +18,7 @@ import PomodoroTimer from "@/components/pomodoro"
 import UserTitle from "@/components/title"
 import WeatherWidget from "@/components/weather"
 
+
 export default async function IndexPage() {
   const appID = process.env.HERE_APP_ID // here.com appID
   const appCode = process.env.HERE_APP_CODE // here.com appCode

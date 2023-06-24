@@ -19,6 +19,11 @@ const DigitalClock = () => {
     };
   }, []);
 
+  if (typeof window === 'undefined') {
+    // Render a placeholder or loading state on the server
+    return <div>Loading...</div>;
+  }
+
   return <div>{currentTime}</div>;
 };
 

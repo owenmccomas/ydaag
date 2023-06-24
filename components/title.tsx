@@ -2,6 +2,13 @@
 import { currentUser } from '@clerk/nextjs';
 import { format } from 'date-fns';
 import DigitalClock from './DigitalClock';
+import dynamic from 'next/dynamic';
+
+const DynamicDigitalClock = dynamic(() => import('../components/DigitalClock'), {
+  ssr: false,
+});
+
+
 
 export default async function UserTitle() {
 
@@ -18,7 +25,7 @@ export default async function UserTitle() {
           {format(Date.now(), 'MMMM d, yyyy')}
         </p>
         <p className="max-w-[700px] text-md text-muted-foreground">
-          <DigitalClock />
+        <DynamicDigitalClock />
         </p>
         </div>
     )
