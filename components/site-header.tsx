@@ -10,9 +10,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+
+
+function openSheet() {
+  console.log("open sheet")
+}
 
 export function SiteHeader() {
   return (
@@ -22,11 +35,34 @@ export function SiteHeader() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <DropdownMenu>
-              <DropdownMenuTrigger className={buttonVariants({ variant: 'outline'})}>Open</DropdownMenuTrigger>
+              <DropdownMenuTrigger
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Open
+              </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>
+
+
+                  <Sheet>
+                    <SheetTrigger>Profile</SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Are you sure absolutely sure?</SheetTitle>
+                        <SheetDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
+
+
+
+                </DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
