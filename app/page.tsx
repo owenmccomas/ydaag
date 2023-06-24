@@ -1,8 +1,5 @@
-"use client"
-
 import React from "react"
 import Link from "next/link"
-
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -15,32 +12,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import UserTitle from "@/components/title"
+import CalenderWrapper from "@/components/calender-wrapper"
+import PomodoroTimer from "@/components/pomodoro"
 
-export default function IndexPage() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+export default async function IndexPage() {
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Good Morning (Name)
-          <br className="hidden sm:inline" />
-          This is your day at a glance.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          June 23rd, 2023
-        </p>
-      </div>
+        <UserTitle />
       <div className="flex gap-4">
-        <Link
-          // href={siteConfig.links.docs}
-          href={"https://pomofocus.io/"}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonVariants()}
-        >
-          Pomodoro
-        </Link>
+        <PomodoroTimer initialTime={1500} />
         <Link
           target="_blank"
           rel="noreferrer"
@@ -87,14 +69,7 @@ export default function IndexPage() {
           </TableBody>
         </Table>
       </div>
-      <div>
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          className="rounded-md border"
-        />
-      </div>
+      <CalenderWrapper />
     </section>
   )
 }

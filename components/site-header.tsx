@@ -14,6 +14,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -21,17 +22,27 @@ import {
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Button } from "react-day-picker"
+import { currentUser } from '@clerk/nextjs';
+import { SheetIcon } from "lucide-react"
+
+
+
 
 
 function openSheet() {
   console.log("open sheet")
 }
 
-export function SiteHeader() {
+export async function SiteHeader() {
+
+  const user = await currentUser();
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
+              <Sheet>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <DropdownMenu>
@@ -44,24 +55,7 @@ export function SiteHeader() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-
-
-                  <Sheet>
                     <SheetTrigger>Profile</SheetTrigger>
-                    <SheetContent>
-                      <SheetHeader>
-                        <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-                        <SheetDescription>
-                          This action cannot be undone. This will permanently
-                          delete your account and remove your data from our
-                          servers.
-                        </SheetDescription>
-                      </SheetHeader>
-                    </SheetContent>
-                  </Sheet>
-
-
-
                 </DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
@@ -71,6 +65,16 @@ export function SiteHeader() {
             <ThemeToggle />
           </nav>
         </div>
+                    <SheetContent className="flex flex-col justify-between">
+                      <SheetHeader className="mt-10">
+                        <img width={120} className="mx-auto rounded-full" src={user?.imageUrl} />
+                        <SheetTitle className="text-center">{user?.firstName} {user?.lastName}</SheetTitle>
+                      </SheetHeader>
+                        <SheetDescription className="align-bottom">
+                          We think you're pretty cool. Here some stuff about you
+                        </SheetDescription>
+                    </SheetContent>
+                  </Sheet>
       </div>
     </header>
   )
