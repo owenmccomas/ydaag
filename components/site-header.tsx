@@ -71,7 +71,7 @@ export async function SiteHeader() {
                         <SheetTitle className="text-center">{user?.firstName} {user?.lastName}</SheetTitle>
                       </SheetHeader>
                         <SheetDescription className="align-bottom">
-                          We think you're pretty cool. Here some stuff about you
+                          {`We think you're pretty cool. Here some stuff about you`}
                         </SheetDescription>
                     </SheetContent>
                   </Sheet>
