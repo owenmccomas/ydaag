@@ -1,99 +1,130 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 // Function to convert city and state to coordinates
 const geocodeCityState = async (
   city: string,
   state: string
 ): Promise<{ lat: number; lng: number }> => {
-  const address = `${city}, ${state}`
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  const address = `${city}, ${state}`;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
     address
-  )}&key=${apiKey}`
+  )}&key=${apiKey}`;
 
   try {
-    const response = await axios.get(url)
+    const response = await axios.get(url);
 
     if (response.data.results.length > 0) {
-      const { lat, lng } = response.data.results[0].geometry.location
-      return { lat, lng }
+      const { lat, lng } = response.data.results[0].geometry.location;
+      return { lat, lng };
     } else {
-      throw new Error("No results found")
+      throw new Error("No results found");
     }
   } catch (error) {
-    throw new Error("Geocoding request failed")
+    throw new Error("Geocoding request failed");
   }
-}
+};
 
 interface WeatherPeriod {
-  temperature: number
-  shortForecast: string
-  startTime: string
-  endTime: string
+  temperature: number;
+  shortForecast: string;
+  startTime: string;
+  endTime: string;
 }
 
 const WeatherWidget: React.FC = () => {
-  const [currentPeriod, setCurrentPeriod] = useState<WeatherPeriod | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+  const [currentPeriod, setCurrentPeriod] = useState<WeatherPeriod | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const city = "San Francisco" // Replace with user input
-        const state = "CA" // Replace with user input
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-        const { lat, lng } = await geocodeCityState(city, state) // Convert city and state to coordinates
+    try {
+      const { lat, lng } = await geocodeCityState(city, state);
 
-        const pointsResponse = await axios.get(
-          `https://api.weather.gov/points/${lat},${lng}`
-        )
-        const forecastHourlyUrl = pointsResponse.data.properties.forecastHourly
-        const hourlyForecastResponse = await axios.get(forecastHourlyUrl)
-        const periods = hourlyForecastResponse.data.properties.periods
-        const currentDateTime = new Date()
+      const pointsResponse = await axios.get(
+        `https://api.weather.gov/points/${lat},${lng}`
+      );
+      const forecastHourlyUrl = pointsResponse.data.properties.forecastHourly;
+      const hourlyForecastResponse = await axios.get(forecastHourlyUrl);
+      const periods = hourlyForecastResponse.data.properties.periods;
+      const currentDateTime = new Date();
 
-        for (const period of periods) {
-          const startTime = new Date(period.startTime)
-          const endTime = new Date(period.endTime)
+      for (const period of periods) {
+        const startTime = new Date(period.startTime);
+        const endTime = new Date(period.endTime);
 
-          if (currentDateTime >= startTime && currentDateTime <= endTime) {
-            setCurrentPeriod(period)
-            setLoading(false)
-            break
-          }
+        if (currentDateTime >= startTime && currentDateTime <= endTime) {
+          setCurrentPeriod(period);
+          setLoading(false);
+          setFormSubmitted(true);
+          break;
         }
-      } catch (error) {
-        console.error("Error fetching weather data:", error)
-        setError("Error fetching weather data")
-        setLoading(false)
       }
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+      setError("Error fetching weather data");
+      setLoading(false);
     }
-
-    fetchData()
-  }, [])
+  };
 
   return (
-    <div className="flex justify-end">
-      {loading ? (
-        <div>Loading weather data...</div>
-      ) : error ? (
-        <div>{error}</div>
-      ) : currentPeriod ? (
-        <div>
-          {/* <div>Time: {currentPeriod.startTime}</div> */}
-          <div>Temperature: {currentPeriod.temperature}&deg;F</div>
-          <div>Forecast: {currentPeriod.shortForecast}</div>
-        </div>
-      ) : (
-        <div>No weather data available</div>
-      )}
-    </div>
-  )
-}
+<div className="flex justify-end">
+  {!formSubmitted ? (
+    <form onSubmit={handleSubmit} className="p-1">
+      <Input
+        type="text"
+        placeholder="Enter city"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        className="p-2 border border-gray-300 rounded"
+      />
+      <Input
+        type="text"
+        placeholder="Enter state"
+        value={state}
+        onChange={(e) => setState(e.target.value)}
+        className="p-2 border border-gray-300 rounded"
+      />
+      <Button
+        type="submit"
+        className="px-4 py-2 text-white rounded"
+        variant={"outline"}
+      >
+        Get Weather
+      </Button>
+    </form>
+  ) : null}
 
-export default WeatherWidget
+  {loading ? (
+    <div className="text-gray-500">Loading weather data...</div>
+  ) : error ? (
+    <div className="text-red-500">{error}</div>
+  ) : currentPeriod ? (
+    <div className="space-y-2">
+      <div className="text-lg font-semibold">
+        {currentPeriod.temperature}&deg;F
+      </div>
+      <div>{currentPeriod.shortForecast}</div>
+    </div>
+  ) : (
+    <div className="text-gray-500">No weather data available</div>
+  )}
+</div>
+
+  );
+};
+
+export default WeatherWidget;
