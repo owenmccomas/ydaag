@@ -1,19 +1,23 @@
-// TodoList.tsx
-import { TableCaption, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+
 import prisma from "@/lib/prisma";
 import CreateTodo from "./create-todo";
 import { currentUser } from "@clerk/nextjs";
-import { Trash2 } from "lucide-react";
+import Todo from "./todos";
 
 const TodoList: React.FC = async () => {
   
   const user = await currentUser();
 
-  const todos = await prisma.todo.findMany({
+  const getTodos = async () => {
+    "use server"
+    return await prisma.todo.findMany({
     where: {
       clerkId: user?.id,
     },
   })
+}
+
+const todos = await getTodos()
 
   const createTodo = async ({
     title,
@@ -26,7 +30,8 @@ const TodoList: React.FC = async () => {
   }) => {
     "use server"
     if(!user?.id) throw new Error('User not found')
-    const newTodo = await prisma.todo.create({
+
+    await prisma.todo.create({
       data: {
         title,
         description,
@@ -36,7 +41,24 @@ const TodoList: React.FC = async () => {
     });
   }
 
-  const pickerColor = (priority: string) => {
+  const deleteTodo = async (id: number) => {
+    "use server"
+    const exists = await prisma.todo.findFirst({
+      where: {
+        id,
+        clerkId: user?.id,
+      },
+    });
+    if(!exists) console.error('Todo not found')
+    await prisma.todo.delete({
+      where: { id },
+    });
+  }
+
+
+
+  const pickerColor = async (priority: string) => {
+    "use server"
     switch (priority) {
         case '1':
             return 'bg-red-400';
@@ -52,39 +74,7 @@ const TodoList: React.FC = async () => {
   return (
     <div className="w-9/12 rounded-lg border px-1 pb-10 pt-1">
     <CreateTodo create={createTodo} />
-    <Table>
-      <TableCaption>A list of your todos.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Priority</TableHead>
-          <TableHead className="w-[100px]">Title</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Delete</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {todos.map((todo) => (
-          <TableRow key={todo.id}>
-            <TableCell >
-              <div className={`h-[20px] w-[20px] rounded-full bg-opacity-40 ${pickerColor(todo.priority ? todo.priority.toString() : '')}`} />
-            </TableCell>
-            <TableCell className="w-[200px]">{todo.title}</TableCell>
-            <TableCell>{todo.description}</TableCell>
-            <TableCell>
-              {!todo.completed ? (
-                <span className="text-green-500">OPEN</span>
-              ):(
-                <span className="text-red-500">CLOSED</span>
-              )}
-            </TableCell>
-            <TableCell>
-              <Trash2 className="mx-auto cursor-pointer opacity-50 transition-all hover:opacity-60" />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <Todo todos={todos} pickerColor={pickerColor} deleteTodo={deleteTodo} />
     </div>
   );
 };
