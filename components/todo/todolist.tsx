@@ -79,7 +79,7 @@ const TodoList: React.FC = async () => {
               )}
             </TableCell>
             <TableCell>
-              <Trash2 className="cursor-pointer opacity-50 transition-all hover:opacity-60" />
+              <Trash2 className="mx-auto cursor-pointer opacity-50 transition-all hover:opacity-60" />
             </TableCell>
           </TableRow>
         ))}
