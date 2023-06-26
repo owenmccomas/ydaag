@@ -1,90 +1,41 @@
 import React from "react"
 import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { buttonVariants } from "@/components/ui/button"
+import UserTitle from "@/components/title"
 import CalenderWrapper from "@/components/calender-wrapper"
 import PomodoroTimer from "@/components/pomodoro"
-import UserTitle from "@/components/title"
+import TodoList from "@/components/todo/todolist"
 
 
 export default async function IndexPage() {
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <UserTitle />
+        <UserTitle />
       <div className="flex gap-4">
         <PomodoroTimer initialTime={1500} />
-
-        <Button variant={"outline"} className="h-12">
-          <Link
-            target="_blank"
-            rel="noreferrer"
-            href={"https://github.com"}
-            // href={siteConfig.links.github}
-          >
-            GitHub
-          </Link>
-        </Button>
-
-        <Button variant={"outline"} className="h-12">
         <Link
           target="_blank"
           rel="noreferrer"
-          href={"https://mail.google.com"}
+          href={"https://github.com"}
           // href={siteConfig.links.github}
+          className={buttonVariants({ variant: "outline" })}
         >
-          Gmail
+          GitHub
         </Link>
-        </Button>
-
       </div>
-      <div className="flex gap-4">
-        <Table>
-          <TableCaption>
-            A list of your recent invoices. (dummy data)
-          </TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">INV002</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Wire Transfer</TableCell>
-              <TableCell className="text-right">$9,200.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">INV003</TableCell>
-              <TableCell>Pending</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$300.00</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+      <div className="flex gap-3">
+      <TodoList />
+      <div className="flex w-3/12 items-center justify-center rounded-lg border p-10">
+        <p className="underline">Sticky Notes here</p>
+      </div>
+      </div>
+      <div className="flex gap-3">
+      <div className="flex w-3/12 items-center justify-center rounded-lg border p-10">
+        <p className="underline">Another Component Here</p>
       </div>
       <CalenderWrapper />
+      </div>
     </section>
   )
 }
