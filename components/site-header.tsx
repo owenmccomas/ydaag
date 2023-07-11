@@ -51,31 +51,25 @@ export async function SiteHeader() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <SheetTrigger>Profile</SheetTrigger>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuItem>Subscription</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <ThemeToggle />
-            </nav>
-          </div>
-          <SheetContent className="flex flex-col justify-between">
-            <SheetHeader className="mt-10">
-              <img
-                width={120}
-                className="mx-auto rounded-full"
-                src={user?.imageUrl}
-              />
-              <SheetTitle className="text-center">
-                {user?.firstName} {user?.lastName}
-              </SheetTitle>
-            </SheetHeader>
-            <SheetDescription className="align-bottom">
-              We think you're pretty cool. Here some stuff about you
-            </SheetDescription>
-          </SheetContent>
-        </Sheet>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <ThemeToggle />
+          </nav>
+        </div>
+                    <SheetContent className="flex flex-col justify-between">
+                      <SheetHeader className="mt-10">
+                        <img width={120} className="mx-auto rounded-full" src={user?.imageUrl} />
+                        <SheetTitle className="text-center">{user?.firstName} {user?.lastName}</SheetTitle>
+                      </SheetHeader>
+                        <SheetDescription className="align-bottom">
+                          {`We think you're pretty cool. Here some stuff about you`}
+                        </SheetDescription>
+                    </SheetContent>
+                  </Sheet>
       </div>
     </header>
   )
