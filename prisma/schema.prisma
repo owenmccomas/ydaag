@@ -23,3 +23,11 @@ model Todo {
 
   @@map("todos")
 }
+
+model Notes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  note      String?
+
+  clerkId String? @map("clerk_id")
+}
