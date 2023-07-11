@@ -24,7 +24,7 @@ export default async function IndexPage() {
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <UserTitle />
       <div className="flex gap-4">
-        <PomodoroTimer initialTime={1500} />
+        <PomodoroTimer initialTime={25} />
 
         <Button variant={"outline"} className="h-12">
           <Link
