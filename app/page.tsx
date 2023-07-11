@@ -5,6 +5,7 @@ import UserTitle from "@/components/title"
 import CalenderWrapper from "@/components/calender-wrapper"
 import PomodoroTimer from "@/components/pomodoro"
 import TodoList from "@/components/todo/todolist"
+import { NoteWrap } from "@/components/StickyNotes/notewrap"
 
 
 export default async function IndexPage() {
@@ -26,9 +27,7 @@ export default async function IndexPage() {
       </div>
       <div className="flex gap-3">
       <TodoList />
-      <div className="flex w-3/12 items-center justify-center rounded-lg border p-10">
-        <p className="underline">Sticky Notes here</p>
-      </div>
+      <NoteWrap />
       </div>
       <div className="flex gap-3">
       <div className="flex w-3/12 items-center justify-center rounded-lg border p-10">
