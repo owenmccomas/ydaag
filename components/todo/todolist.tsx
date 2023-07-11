@@ -1,4 +1,3 @@
-
 import prisma from "@/lib/prisma";
 import CreateTodo from "./create-todo";
 import { currentUser } from "@clerk/nextjs";

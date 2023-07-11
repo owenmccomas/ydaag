@@ -20,6 +20,16 @@ export default async function IndexPage() {
           <Link
             target="_blank"
             rel="noreferrer"
+            href={"https://mail.google.com"}
+            // href={siteConfig.links.github}
+          >
+            Gmail
+          </Link>
+        </Button>
+        <Button variant={"outline"} className="h-12">
+          <Link
+            target="_blank"
+            rel="noreferrer"
             href={"https://github.com"}
             // href={siteConfig.links.github}
           >
@@ -27,16 +37,6 @@ export default async function IndexPage() {
           </Link>
         </Button>
 
-        <Button variant={"outline"} className="h-12">
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={"https://github.com"}
-          // href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
       </div>
       <div className="flex gap-3">
       <TodoList />
