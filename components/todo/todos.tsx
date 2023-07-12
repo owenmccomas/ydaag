@@ -3,11 +3,12 @@ import { Trash2 } from "lucide-react";
 import { TableCaption, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../ui/table";
 
 
-export default function Todo({ todos, deleteTodo, pickerColor
+export default function Todo({ todos, deleteTodo, 
+  pickerColor
 }: {
-  todos: any | undefined;
-  deleteTodo: any;
-  pickerColor: any;
+  todos?: any | undefined;
+  deleteTodo?: any;
+  pickerColor?: any;
 }) {
 
 

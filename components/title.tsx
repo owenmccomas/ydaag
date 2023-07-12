@@ -29,9 +29,9 @@ export default async function UserTitle() {
       <p className="max-w-[700px] text-lg text-muted-foreground">
         {format(Date.now(), "MMMM d, yyyy")}
       </p>
-      <p className="text-md text-muted-foreground">
+      {/* <p className="text-md text-muted-foreground"> */}
         <DynamicDigitalClock />
-      </p>
+      {/* </p> */}
     </div>
     <div className="ml-auto">
       <WeatherWidget />

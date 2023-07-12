@@ -1,51 +1,27 @@
-import prisma from "@/lib/prisma";
-import CreateTodo from "./create-todo";
-import { currentUser } from "@clerk/nextjs";
-import Todo from "./todos";
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { getTodos } from "@/api"
+import {  createTodo, deleteTodo } from "api"
+import { currentUser } from "@clerk/nextjs"
+
+import prisma from "@/lib/prisma"
+
+import CreateTodo from "./create-todo"
+import Todo from "./todos"
+import { PrismaClient } from "@prisma/client"
 
 const TodoList: React.FC = async () => {
-  
-  const user = await currentUser();
+  const user = await currentUser()
 
-  const getTodos = async () => {
-    "use server"
-    return await prisma.todo.findMany({
-    where: {
-      clerkId: user?.id,
-    },
-  })
-}
-
-const todos = await getTodos()
-
-  const createTodo = async ({
-    title,
-    description,
-    priority,
-  }: {
-    title: string;
-    description: string;
-    priority: string;
-  }) => {
-    "use server"
-    if(!user?.id) throw new Error('User not found')
-
-    await prisma.todo.create({
-      data: {
-        title,
-        description,
-        priority: parseInt(priority),
-        clerkId: user!.id,
-      },
-    });
-  }
-
-  const deleteTodo = async (id: number) => {
-    "use server"
-    const exists = await prisma.todo.findFirst({
+  const deleteTodo = async ( 
+    { id, userId }:
+    { userId:string, id: number}) => {
+        // "use server"
+        const prisma = new PrismaClient();
+        const exists = await prisma.todo.findFirst({
       where: {
         id,
-        clerkId: user?.id,
+        clerkId: userId,
       },
     });
     if(!exists) console.error('Todo not found')
@@ -54,28 +30,22 @@ const todos = await getTodos()
     });
   }
 
+  // const [todos, setTodos] = useState([])
 
-
-  const pickerColor = async (priority: string) => {
-    "use server"
-    switch (priority) {
-        case '1':
-            return 'bg-red-400';
-        case '2':
-            return 'bg-yellow-400';
-        case '3':
-            return 'bg-green-400';
-        default:
-            return 'bg-gray-400';
-    }
-}
+  // const router = useRouter();
+  // useEffect(() => {
+  //   const todoList:any = getTodos(user?.id!)
+  //   setTodos(todoList)
+  // }, [])
 
   return (
     <div className="w-9/12 rounded-lg border px-1 pb-10 pt-1">
-    <CreateTodo create={createTodo} />
-    <Todo todos={todos} pickerColor={pickerColor} deleteTodo={deleteTodo} />
+      <CreateTodo userId={user?.id} />
+      <Todo
+       deleteTodo={deleteTodo} 
+       />
     </div>
-  );
-};
+  )
+}
 
-export default TodoList;
+export default TodoList

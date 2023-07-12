@@ -10,6 +10,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Collapsible } from "@radix-ui/react-collapsible";
 import { CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import CalenderWrapper from "@/components/calender-wrapper";
+import { createTodo } from "@/api";
+// import { currentUser} from "@clerk/nextjs";
+
 
 type NewTodo = {
   title: string;
@@ -18,20 +21,20 @@ type NewTodo = {
   dueDate: Date | null;
 };
 
-export default function CreateTodo({
-  create,
-}: {
-  create: (todo: NewTodo) => void;
-}) {
-  const [inputs, setInputs] = useState<NewTodo>({
+export default async function CreateTodo(
+  {userId}: {userId: string | undefined}
+  ) {
+    const [inputs, setInputs] = useState<NewTodo>({
     title: "",
     description: "",
     priority: "0",
     dueDate: null,
+    
   });
-
+  
+  // const user = await currentUser();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
+  
   const pickerColor = (priority: string) => {
     switch (priority) {
       case "1":
@@ -54,7 +57,7 @@ export default function CreateTodo({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    create(inputs);
+    createTodo({...inputs, userId});
     setInputs({
       title: "",
       description: "",
